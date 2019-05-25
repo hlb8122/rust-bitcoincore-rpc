@@ -254,17 +254,17 @@ pub trait RpcApi: Sized {
     }
 
     fn get_block(&self, hash: &sha256d::Hash) -> Result<Block> {
-        let hex: String = self.call("getblock", &[into_json(hash)?, 0.into()])?;
+        let hex: String = self.call("getblock", &[into_json(hash)?, false.into()])?;
         let bytes = hex::decode(hex)?;
         Ok(bitcoin::consensus::encode::deserialize(&bytes)?)
     }
 
     fn get_block_hex(&self, hash: &sha256d::Hash) -> Result<String> {
-        self.call("getblock", &[into_json(hash)?, 0.into()])
+        self.call("getblock", &[into_json(hash)?, false.into()])
     }
 
     fn get_block_info(&self, hash: &sha256d::Hash) -> Result<json::GetBlockResult> {
-        self.call("getblock", &[into_json(hash)?, 1.into()])
+        self.call("getblock", &[into_json(hash)?, true.into()])
     }
     //TODO(stevenroose) add getblock_txs
 
